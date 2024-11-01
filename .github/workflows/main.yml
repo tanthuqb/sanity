@@ -1,0 +1,19 @@
+name: Deploy Sanity
+on:
+  push:
+    branches: [main]
+jobs:
+  sanity-deploy:
+    runs-on: ubuntu-22.04
+    name: Deploy Sanity
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Deploy Sanity Studio
+        run: |
+          cd studio
+          npx @sanity/cli deploy
+        env:
+          SANITY_AUTH_TOKEN: ${{ secrets.SANITY_AUTH_TOKEN }}
